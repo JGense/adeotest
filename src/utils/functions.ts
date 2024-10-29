@@ -7,16 +7,14 @@ import data, { Country } from '../data';
  */
 export const filterFunction = (filter: string): Array<Country> => {
     const pattern = filter.split('=')[1];
-    // return countries whith at least one people
     return data.map(country => {
-      // return people whith at least one animal matching the filter
-      const filteredPeople = country.people.map(person => {
-        const filteredAnimals = person.animals.filter(animal => animal.name.includes(pattern));
-        return { ...person, animals: filteredAnimals };
-      }).filter(person => person.animals.length > 0);
-      return { ...country, people: filteredPeople };
+      const peoplesFiltered = country.people.map(people => {
+        const animalsFiltered = people.animals.filter(animal => animal.name.includes(pattern));
+        return { ...people, animals: animalsFiltered };
+      }).filter(person => person.animals.length > 0); // return people whith at least one animal matching the filter
+      return { ...country, people: peoplesFiltered };
     })
-    .filter(country => country.people.length > 0);
+    .filter(country => country.people.length > 0); // return countries whith at least one people
 }
 
 /**
@@ -26,7 +24,7 @@ export const filterFunction = (filter: string): Array<Country> => {
 export const countFunction  = (): Array<Country> => {
   return data.map(country => {
     const peopleCount = country.people.length;
-    const updatedPeople = country.people.map(person => {
+    const peopleUpdated = country.people.map(person => {
       const animalCount = person.animals.length;
       return {
         ...person,
@@ -38,7 +36,7 @@ export const countFunction  = (): Array<Country> => {
     return {
       ...country,
       name: `${country.name} [${peopleCount}]`,
-      people: updatedPeople
+      people: peopleUpdated
     };
   });
 }
